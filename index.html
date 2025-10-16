@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Solver Sample</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        .filename {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Captcha Solver Sample</h1>
+    <div class="output">
+        <p>Image from URL:</p>
+        <img id="loadedImage" alt="Captcha Image">
+        <p class="filename" id="imageFilename"></p>
+    </div>
+    <script>
+        function getUrlParameter(name) {
+            name = name.replace(/\[\]/g, '\\\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        const imageUrl = getUrlParameter('url');
+        const imageElement = document.getElementById('loadedImage');
+        const filenameElement = document.getElementById('imageFilename');
+
+        if (imageUrl) {
+            const urlParts = imageUrl.split('/');
+            const filename = urlParts[urlParts.length - 1];
+            imageElement.src = imageUrl;
+            filenameElement.textContent = 'Image filename: ' + filename;
+        } else {
+            filenameElement.textContent = 'No image URL provided.';
+        }
+    </script>
+</body>
+</html>
